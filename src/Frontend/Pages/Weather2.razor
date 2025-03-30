@@ -1,14 +1,14 @@
-﻿@page "/weather"
+﻿@page "/weather2"
 @attribute [Authorize]
 @inject HttpClient Http
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Weather 2</PageTitle>
 
-<h1>Weather</h1>
+<h1>Weather 2</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component demonstrates fetching data from the server fetching from a downstream API.</p>
 
-<p>Weather forecast is for the next five days summarized as Freezing, Bracing, Chilly, Cool, Mild, Warm, Balmy, Hot, Sweltering, or Scorching.</p>
+<p>Weather forecast is for five days a month from now summarized as Icy, Frosty, Crisp, Pleasant, Toasty, Humid, Torrid, Blistering, Sultry, or Oppressive.</p>
 
 @if (forecasts == null)
 {
@@ -44,7 +44,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("https://localhost:7228/weatherforecast");
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("https://localhost:7228/downstream-weatherforecast");
     }
 
     public class WeatherForecast

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +17,11 @@ builder.Services.AddCors(options =>
 
 // Configure authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(options =>
-    {
-        builder.Configuration.Bind("AzureAd", options);
-        options.TokenValidationParameters.NameClaimType = "name";
-    }, options => { builder.Configuration.Bind("AzureAd", options); });
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddDownstreamApi("DownstreamApi", builder.Configuration.GetSection("DownstreamApi"))
+    .AddInMemoryTokenCaches();
+builder.Services.AddAuthorization();
 
 // Configure authorization
 builder.Services.AddAuthorization(config =>
@@ -54,6 +55,15 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("weatherForecast")
+.RequireAuthorization("AuthZPolicy"); // Protect this endpoint with the AuthZPolicy
+
+app.MapGet("/downstream-weatherforecast", async (IDownstreamApi downstreamApi) =>
+{
+    var response = await downstreamApi.CallApiForUserAsync("DownstreamApi").ConfigureAwait(false);
+    var forecast = await response.Content.ReadFromJsonAsync<WeatherForecast[]>();
+    return forecast;
+})
+.WithName("downstreamWeatherForecast")
 .RequireAuthorization("AuthZPolicy"); // Protect this endpoint with the AuthZPolicy
 
 app.Run();
