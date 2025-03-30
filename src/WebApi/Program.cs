@@ -3,6 +3,17 @@ using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins("https://localhost:7227")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Configure authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(options =>
@@ -14,13 +25,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Configure authorization
 builder.Services.AddAuthorization(config =>
 {
-config.AddPolicy("AuthZPolicy", policy =>
-    policy.RequireRole("Forecast.Read"));
+    config.AddPolicy("AuthZPolicy", policy =>
+        policy.RequireRole("Forecast.Read"));
 });
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
