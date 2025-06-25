@@ -9,7 +9,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
         {
-            policy.WithOrigins("https://localhost:7227")
+            policy.WithOrigins(builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()!)
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
@@ -44,7 +44,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -57,10 +57,10 @@ app.MapGet("/weatherforecast", () =>
 .WithName("weatherForecast")
 .RequireAuthorization("AuthZPolicy"); // Protect this endpoint with the AuthZPolicy
 
-app.MapGet("/downstream-weatherforecast", async (IDownstreamApi downstreamApi) =>
+app.MapGet("/downstream/weatherforecast", async (IDownstreamApi downstreamApi) =>
 {
-    var response = await downstreamApi.CallApiForUserAsync("DownstreamApi").ConfigureAwait(false);
-    var forecast = await response.Content.ReadFromJsonAsync<WeatherForecast[]>();
+    var response = await downstreamApi.CallApiForUserAsync("DownstreamApi", options => { options.RelativePath = "weatherforecast"; }).ConfigureAwait(false);
+    var forecast = await response.Content.ReadFromJsonAsync<WeatherForecast[]>().ConfigureAwait(false);
     return forecast;
 })
 .WithName("downstreamWeatherForecast")
