@@ -14,17 +14,9 @@
 
 Make Web API an authorized client application to Web API 2.
 
-Declare client secret for `src/WebApi` in user secrets:
+Create client secret for `src/WebApi` in user secrets:
 
-```json
-{
-  "AzureAd": {
-    "ClientCredentials": [
-      {
-        "SourceType": "ClientSecret",
-        "ClientSecret": "..."
-      }
-    ]
-  }
-}
+```sh
+CLIENT_SECRET="..."
+dotnet user-secrets set "AzureAd:ClientCredentials:0:ClientSecret" "$CLIENT_SECRET" --project src/WebApi
 ```
