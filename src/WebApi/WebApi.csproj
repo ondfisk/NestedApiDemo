@@ -11,8 +11,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.9.4" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.9.4" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.10.0" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.10.0" />
   </ItemGroup>
 
 </Project>
