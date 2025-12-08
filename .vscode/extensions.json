@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"davidanson.vscode-markdownlint",
+		"ms-dotnettools.csdevkit",
+		"streetsidesoftware.code-spell-checker"
+	]
+}

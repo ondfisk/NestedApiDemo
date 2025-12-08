@@ -1,8 +1,11 @@
 {
-    "cSpell.words": [
-        "Blazor",
-        "Entra",
-        "Msal",
-        "weatherforecast"
-    ]
+    "cSpell.enabled": true,
+    "cSpell.language": "en",
+    "editor.trimAutoWhitespace": true,
+    "files.autoSave": "afterDelay",
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "github.copilot.enable": {
+        "*": false
+    }
 }
