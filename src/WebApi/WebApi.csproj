@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="4.6.0" />
+    <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
